@@ -3,6 +3,7 @@ import { useState } from "react";
 import FormOutput from "./FormOutput";
 
 function FormInput() {
+
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
@@ -11,7 +12,8 @@ function FormInput() {
   interface OnChangeLIstener {
     target: { name: string; value: string };
   }
-  const [, setSubmitted] = useState(false);
+
+  const [isSubmited, setSubmitted] = useState(false);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -25,6 +27,7 @@ function FormInput() {
 
   const onChange = (e: OnChangeLIstener) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    setSubmitted(false);
   };
 
   return (
@@ -69,10 +72,11 @@ function FormInput() {
               sex:
               <select
                 style={{ margin: "10px" }}
+                name="sex"
                 value={sex}
                 onChange={onChange}
               >
-                <option defaultValue="male">Male</option>
+                <option value="male">Male</option>
                 <option value="Female">Female</option>
               </select>
             </label>
@@ -82,8 +86,8 @@ function FormInput() {
               Email:
               <input
                 type="email"
-                name="Email"
-                style={{ marginLeft: "10px" }}
+                name="email"
+                style={{ marginLeft: "10px", marginBottom: "10px" }}
                 value={email}
                 onChange={onChange}
               />
@@ -93,7 +97,8 @@ function FormInput() {
             </div>
           </div>
         </form>
-       <FormOutput{...user}/> 
+
+        {isSubmited ? <FormOutput {...user} /> : null}
       </div>
     </div>
   );
